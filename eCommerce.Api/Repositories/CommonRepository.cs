@@ -16,7 +16,7 @@ public class CommonRepository<T>:ICommonRepository<T> where T : class
         return await _context.Set<T>().ToListAsync();
     }
 
-    public async Task<T> GetDetailsAsync(int id)
+    public async Task<T?> GetDetailsAsync(int id)
     {
         return await _context.Set<T>().FindAsync(id);
     }

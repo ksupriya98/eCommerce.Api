@@ -14,14 +14,18 @@ public class eCommerceApiDbContext : DbContext
 
     }
 
-    public DbSet<Category> Categories { get; set; }
-    public DbSet<Product> Products { get; set; }
+    public DbSet<Category> Categories { get; set; } = null!;
+    public DbSet<Product> Products { get; set; } = null!;
+    public DbSet<Customer> Customers { get; set; } = null!;
+    public DbSet<Cart> Carts { get; set; } = null!;
+    public DbSet<CartItem> CartItems { get; set; } = null!;
+    public DbSet<Invoice> Invoices { get; set; } = null!;
+    public DbSet<Shipper> Shippers { get; set; } = null!;
+    public DbSet<Supplier> Suppliers { get; set; } = null!;
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        if (!optionsBuilder.IsConfigured)
-        {
-            optionsBuilder.UseMySQL("Server=192.168.100.99;Port=3306;Database=ECommerceDb;User Id=saleel;Password=saleel;");
-        }
+        base.OnModelCreating(modelBuilder);
+        modelBuilder.Seed();
     }
 }

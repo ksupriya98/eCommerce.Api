@@ -24,6 +24,6 @@ public class Product
     public int ProductQuantity { get; set; } = 1;
     public int Discount { get; set; }
     public string Picture { get; set; } = "~/Images/noimage.png";
-    public Category Category { get; set; }
+    public Category? Category { get; set; }
 }
 

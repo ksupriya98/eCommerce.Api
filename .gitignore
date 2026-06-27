@@ -1,0 +1,44 @@
+# Build results
+[Bb]in/
+[Oo]bj/
+[Oo]ut/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+build/
+bld/
+msbuild.log
+msbuild.err
+msbuild.wrn
+
+# Visual Studio / Rider / VS Code
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.userprefs
+
+# .NET
+project.lock.json
+project.fragment.lock.json
+artifacts/
+*.nupkg
+*.snupkg
+.packages/
+
+# ASP.NET secrets (do not commit credentials)
+appsettings.*.local.json
+secrets.json
+
+# Rider
+*.DotSettings.user
+
+# OS files
+.DS_Store
+Thumbs.db

@@ -1,4 +1,4 @@
-﻿using eCommerce.Api.Models;
+using eCommerce.Api.Models;
 using eCommerce.Api.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,39 +6,40 @@ namespace eCommerce.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class CategoriesController : ControllerBase
+public class InvoicesController : ControllerBase
 {
-    private readonly ICommonRepository<Category> _categoryRepository;
+    private readonly ICommonRepository<Invoice> _invoiceRepository;
 
-    public CategoriesController(ICommonRepository<Category> categoryRepository)
+    public InvoicesController(ICommonRepository<Invoice> invoiceRepository)
     {
-        _categoryRepository = categoryRepository;
+        _invoiceRepository = invoiceRepository;
     }
 
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [HttpGet]
-    public async Task<ActionResult<List<Category>>> Get()
+    public async Task<ActionResult<List<Invoice>>> Get()
     {
-        var categories = await _categoryRepository.GetAllAsync();
-        if (categories.Count > 0)
+        var invoices = await _invoiceRepository.GetAllAsync();
+        if (invoices.Count > 0)
         {
-            return Ok(categories);
+            return Ok(invoices);
         }
         else
         {
             return NoContent();
         }
     }
+
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [HttpGet("{categoryId:int}")]
-    public async Task<ActionResult<Category>> Get(int categoryId)
+    [HttpGet("{invoiceId:int}")]
+    public async Task<ActionResult<Invoice>> Get(int invoiceId)
     {
-        var category = await _categoryRepository.GetDetailsAsync(categoryId);
-        if (category != null)
+        var invoice = await _invoiceRepository.GetDetailsAsync(invoiceId);
+        if (invoice != null)
         {
-            return Ok(category);
+            return Ok(invoice);
         }
         else
         {
@@ -49,27 +50,28 @@ public class CategoriesController : ControllerBase
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [HttpPost]
-    public async Task<ActionResult<Category>> Post(Category category)
+    public async Task<ActionResult<Invoice>> Post(Invoice invoice)
     {
         if (ModelState.IsValid)
         {
-            int result = await _categoryRepository.InsertAsync(category);
+            int result = await _invoiceRepository.InsertAsync(invoice);
             if (result > 0)
             {
-                return CreatedAtAction("Get", new { categoryId = category.CategoryId },
-                category);
+                return CreatedAtAction("Get", new { invoiceId = invoice.InvoiceId },
+                invoice);
             }
         }
         return BadRequest();
     }
+
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [HttpPut]
-    public async Task<ActionResult<Category>> Put(Category category)
+    public async Task<ActionResult<Invoice>> Put(Invoice invoice)
     {
         if (ModelState.IsValid)
         {
-            int result = await _categoryRepository.UpdateAsync(category);
+            int result = await _invoiceRepository.UpdateAsync(invoice);
             if (result > 0)
             {
                 return NoContent();
@@ -77,14 +79,15 @@ public class CategoriesController : ControllerBase
         }
         return BadRequest();
     }
+
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [HttpDelete("{id}")]
-    public async Task<ActionResult<Category>> Delete(int id)
+    public async Task<ActionResult<Invoice>> Delete(int id)
     {
         if (ModelState.IsValid)
         {
-            int result = await _categoryRepository.DeleteAsync(id);
+            int result = await _invoiceRepository.DeleteAsync(id);
             if (result > 0)
             {
                 return NoContent();

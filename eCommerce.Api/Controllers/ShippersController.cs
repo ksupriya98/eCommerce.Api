@@ -1,4 +1,4 @@
-﻿using eCommerce.Api.Models;
+using eCommerce.Api.Models;
 using eCommerce.Api.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,39 +6,40 @@ namespace eCommerce.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class CategoriesController : ControllerBase
+public class ShippersController : ControllerBase
 {
-    private readonly ICommonRepository<Category> _categoryRepository;
+    private readonly ICommonRepository<Shipper> _shipperRepository;
 
-    public CategoriesController(ICommonRepository<Category> categoryRepository)
+    public ShippersController(ICommonRepository<Shipper> shipperRepository)
     {
-        _categoryRepository = categoryRepository;
+        _shipperRepository = shipperRepository;
     }
 
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [HttpGet]
-    public async Task<ActionResult<List<Category>>> Get()
+    public async Task<ActionResult<List<Shipper>>> Get()
     {
-        var categories = await _categoryRepository.GetAllAsync();
-        if (categories.Count > 0)
+        var shippers = await _shipperRepository.GetAllAsync();
+        if (shippers.Count > 0)
         {
-            return Ok(categories);
+            return Ok(shippers);
         }
         else
         {
             return NoContent();
         }
     }
+
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [HttpGet("{categoryId:int}")]
-    public async Task<ActionResult<Category>> Get(int categoryId)
+    [HttpGet("{shipperId:int}")]
+    public async Task<ActionResult<Shipper>> Get(int shipperId)
     {
-        var category = await _categoryRepository.GetDetailsAsync(categoryId);
-        if (category != null)
+        var shipper = await _shipperRepository.GetDetailsAsync(shipperId);
+        if (shipper != null)
         {
-            return Ok(category);
+            return Ok(shipper);
         }
         else
         {
@@ -49,27 +50,28 @@ public class CategoriesController : ControllerBase
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [HttpPost]
-    public async Task<ActionResult<Category>> Post(Category category)
+    public async Task<ActionResult<Shipper>> Post(Shipper shipper)
     {
         if (ModelState.IsValid)
         {
-            int result = await _categoryRepository.InsertAsync(category);
+            int result = await _shipperRepository.InsertAsync(shipper);
             if (result > 0)
             {
-                return CreatedAtAction("Get", new { categoryId = category.CategoryId },
-                category);
+                return CreatedAtAction("Get", new { shipperId = shipper.ShipperId },
+                shipper);
             }
         }
         return BadRequest();
     }
+
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [HttpPut]
-    public async Task<ActionResult<Category>> Put(Category category)
+    public async Task<ActionResult<Shipper>> Put(Shipper shipper)
     {
         if (ModelState.IsValid)
         {
-            int result = await _categoryRepository.UpdateAsync(category);
+            int result = await _shipperRepository.UpdateAsync(shipper);
             if (result > 0)
             {
                 return NoContent();
@@ -77,14 +79,15 @@ public class CategoriesController : ControllerBase
         }
         return BadRequest();
     }
+
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [HttpDelete("{id}")]
-    public async Task<ActionResult<Category>> Delete(int id)
+    public async Task<ActionResult<Shipper>> Delete(int id)
     {
         if (ModelState.IsValid)
         {
-            int result = await _categoryRepository.DeleteAsync(id);
+            int result = await _shipperRepository.DeleteAsync(id);
             if (result > 0)
             {
                 return NoContent();

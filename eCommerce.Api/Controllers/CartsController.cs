@@ -1,4 +1,4 @@
-﻿using eCommerce.Api.Models;
+using eCommerce.Api.Models;
 using eCommerce.Api.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,39 +6,40 @@ namespace eCommerce.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class CategoriesController : ControllerBase
+public class CartsController : ControllerBase
 {
-    private readonly ICommonRepository<Category> _categoryRepository;
+    private readonly ICommonRepository<Cart> _cartRepository;
 
-    public CategoriesController(ICommonRepository<Category> categoryRepository)
+    public CartsController(ICommonRepository<Cart> cartRepository)
     {
-        _categoryRepository = categoryRepository;
+        _cartRepository = cartRepository;
     }
 
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [HttpGet]
-    public async Task<ActionResult<List<Category>>> Get()
+    public async Task<ActionResult<List<Cart>>> Get()
     {
-        var categories = await _categoryRepository.GetAllAsync();
-        if (categories.Count > 0)
+        var carts = await _cartRepository.GetAllAsync();
+        if (carts.Count > 0)
         {
-            return Ok(categories);
+            return Ok(carts);
         }
         else
         {
             return NoContent();
         }
     }
+
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [HttpGet("{categoryId:int}")]
-    public async Task<ActionResult<Category>> Get(int categoryId)
+    [HttpGet("{cartId:int}")]
+    public async Task<ActionResult<Cart>> Get(int cartId)
     {
-        var category = await _categoryRepository.GetDetailsAsync(categoryId);
-        if (category != null)
+        var cart = await _cartRepository.GetDetailsAsync(cartId);
+        if (cart != null)
         {
-            return Ok(category);
+            return Ok(cart);
         }
         else
         {
@@ -49,27 +50,28 @@ public class CategoriesController : ControllerBase
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [HttpPost]
-    public async Task<ActionResult<Category>> Post(Category category)
+    public async Task<ActionResult<Cart>> Post(Cart cart)
     {
         if (ModelState.IsValid)
         {
-            int result = await _categoryRepository.InsertAsync(category);
+            int result = await _cartRepository.InsertAsync(cart);
             if (result > 0)
             {
-                return CreatedAtAction("Get", new { categoryId = category.CategoryId },
-                category);
+                return CreatedAtAction("Get", new { cartId = cart.CartId },
+                cart);
             }
         }
         return BadRequest();
     }
+
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [HttpPut]
-    public async Task<ActionResult<Category>> Put(Category category)
+    public async Task<ActionResult<Cart>> Put(Cart cart)
     {
         if (ModelState.IsValid)
         {
-            int result = await _categoryRepository.UpdateAsync(category);
+            int result = await _cartRepository.UpdateAsync(cart);
             if (result > 0)
             {
                 return NoContent();
@@ -77,14 +79,15 @@ public class CategoriesController : ControllerBase
         }
         return BadRequest();
     }
+
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [HttpDelete("{id}")]
-    public async Task<ActionResult<Category>> Delete(int id)
+    public async Task<ActionResult<Cart>> Delete(int id)
     {
         if (ModelState.IsValid)
         {
-            int result = await _categoryRepository.DeleteAsync(id);
+            int result = await _cartRepository.DeleteAsync(id);
             if (result > 0)
             {
                 return NoContent();
